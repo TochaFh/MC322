@@ -1,5 +1,10 @@
 import java.util.ArrayList;
 
+/* Armazena uma lista de IDs de jogadores e outra de IDs de propriedades
+ *
+ * Por enquanto não tem muita utilidade, será mudar para que as listas
+ * armazenem as referências diretas dos jogadores e das propriedades.
+*/
 public class Tabuleiro
 {
     private ArrayList<Integer> jogadores;

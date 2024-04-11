@@ -66,6 +66,8 @@ public class Terreno extends Propriedade
 
     public boolean comprarHotel()
     {
+        // por enquanto não em nenhum tipo de verificação se o hotel pode ser comprado
+        // e provavelmente essa verificação virá fora desse método
         hotel = true;
         return true;
     }

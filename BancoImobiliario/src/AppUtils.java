@@ -2,6 +2,16 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/* Classe de utilidades para o programa
+ *
+ * Possui métodos de saída, input e validação de email e cpf.
+ * 
+ * Está funcionando como um wrapper para saída e entrada, o que pode facilitar
+ * mais pra frente para mudar a forma de saída / entrada do program, principalmente
+ * para testes / debug.
+ * 
+ * Antes de usar os métodos de input, chamar o método 'openScan()'
+*/
 public class AppUtils
 {
     // patterns para validação de email
@@ -10,42 +20,70 @@ public class AppUtils
 
     private static Scanner scan;
 
+    /**
+     * Inicializa um scanner com input de System.in
+     */
     public static void openScan()
     {
         scan = new Scanner(System.in);
     }
 
+    /**
+     * Dá um close no scanner, se houver e estiver aberto
+     */
     public static void closeScan()
     {
-        scan.close();
+        if (scan != null) scan.close();
     }
     
+    /**
+     * Mesmo que 'System.out.println(obj)'
+     */
     public static void log(Object obj)
     {
         System.out.println(obj);
     }
 
+    /**
+     * Mesmo que 'System.out.println(str)'
+     */
     public static void log(String str)
     {
         System.out.println(str);
     }
 
+    /**
+     * @return a instância de Scanner utilizada nesta classe
+     */
     public static Scanner scan()
     {
         return scan;
     }
 
+    /**
+     * Equivalente a 'scan.nextLine()'
+     * @return String lida
+     */
     public static String readLine()
     {
         return scan.nextLine();
     }
 
+    /**
+     * Equivalente a 'scan.nextLine()'
+     * @param msg uma mensagem a ser imprimida antes de ler o input
+     * @return String lida
+     */
     public static String readLine(String msg)
     {
         System.out.print(msg);
         return readLine();
     }
 
+    /**
+     * Lê o input de um int e leva o 'cursor' do scan para a próxima linha
+     * @return int lido
+     */
     public static int readInt()
     {
         int x = scan.nextInt();
@@ -53,6 +91,11 @@ public class AppUtils
         return x;
     }
 
+    /**
+     * Lê o input de um int e leva o 'cursor' do scan para a próxima linha
+     * @param msg uma mensagem a ser imprimida antes de ler o input
+     * @return int lido
+     */
     public static int readInt(String msg)
     {
         System.out.print(msg);
@@ -61,6 +104,10 @@ public class AppUtils
 
     // Validações
 
+    /**
+     * @param cpf String
+     * @return true se o cpf for válido
+     */
     public static boolean validarCpf(String cpf)
     {
         String digitos = cpf.replaceAll("[.-]", "");
@@ -113,7 +160,10 @@ public class AppUtils
         return dv;
     }
 
-    // retorna true se o email for válido
+    /**
+     * @param email String
+     * @return true se o email for válido
+     */
     public static boolean validarEmail(String email)
     {
         Matcher matcher = PATTERN_EMAIL.matcher(email);

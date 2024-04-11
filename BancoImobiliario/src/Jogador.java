@@ -1,3 +1,10 @@
+/**
+ * Representa um jogador do banco imobiliário.
+ * Contém as informações de cadastro (email, cpf etc).
+ * 
+ * Por enquanto, o email e o cpf são automaticamente validados em suas
+ * respectivas funções setters e armazenados como "inválido", se for o caso
+ */
 public class Jogador
 {
     private static int numJogadoresCriados = 0;
@@ -19,6 +26,7 @@ public class Jogador
 
         this.dinheiro = 500;
 
+        // contagem para ID (começa a partir do 1)
         numJogadoresCriados++;
         this.id = numJogadoresCriados;
     }
@@ -96,8 +104,11 @@ public class Jogador
         this.dinheiro = dinheiro;
     }
 
-    // adiciona uma quantia (pode ser negativa) ao saldo do jogador
-    // se no final o saldo for menor ou igual à zero, a função retorna false
+    /**
+     * adiciona uma quantia (pode ser negativa) ao saldo do jogador
+     * @param quantiaSomar
+     * @return falso, se no final o saldo for menor ou igual a 0
+     */
     public boolean somarDinheiro(int quantiaSomar)
     {
         dinheiro += quantiaSomar;
@@ -108,6 +119,6 @@ public class Jogador
     // Método toString
     @Override
     public String toString() {
-        return "-- Jogador " + nome + "\nCpf: " + cpf + "\nEmail: " + email + "\nFoto: " + foto + "\n";
+        return "-- Jogador " + nome + "\nCpf: " + cpf + "\nEmail: " + email + "\nFoto: " + foto + "\nDinheiro: $" + dinheiro + "\n";
     }
 }
