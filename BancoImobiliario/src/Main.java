@@ -2,37 +2,83 @@ public class Main
 {
     public static void main(String[] args)
     {
+        AppUtils.openScan();
         System.out.println("\n** BANCO IMOBILIARIO **\n\n");
 
-        // criando jogadores
+        int numJogadores = AppUtils.readInt("Digite o número de jogadores: ");
 
-        // bob começa com cpf e email inválidos
-        Jogador bob = new Jogador("Bob", "333.444.555-77", // cpf inválido
-                                "email @invalido", "issoe/umcaminho/defoto/muitolegal");
-        // o print do toString() mostra as informações de cpf e email do jogador e diz se são inválidos
-        System.out.println(bob);
-        
-        // rafael tá tudo certinho
-        Jogador rafael = new Jogador("Rafael", "572.980.310-90", // cpf válido meramente ilustrativo
-                                "r175100@dac.unicamp.br", "issoe/outrocaminho/defoto/muitolegal");
-        System.out.println(rafael);
+        Tabuleiro tab = new Tabuleiro();
+        Jogador[] jogadores = new Jogador[numJogadores];
+        Peca[] pecas = new Peca[numJogadores];
 
-        // colocando cpf e email válidos para o bob
-        System.out.println("\nAtualizando dados do bob...\n");
-        bob.setNome("Bob Atualizado");
-        bob.setCpf("412.257.860-45");
-        bob.setEmail("bob13@hotmail.com");
-        System.out.println(bob);
+        Jogador j;
+        for (int i = 0; i < numJogadores; i++)
+        {
+            AppUtils.log("\n--------------\nJogador " + (i+1));
+            
+            j = new Jogador(
+                AppUtils.readLine("Nome: "),
+                AppUtils.readLine("CPF: "),
+                AppUtils.readLine("Email: "),
+                AppUtils.readLine("Foto: ")
+            );
 
-        // criando uma peça e printando informações
-        Peca peca1 = new Peca("vermelho", 2);
-        System.out.println("Peça criada!\nCor: " + peca1.getCor() + "\nPosição: " + peca1.getPosicao());
+            jogadores[i] = j;
+            tab.addJogador(j.getId());
+            
+            pecas[i] = new Peca(
+                AppUtils.readLine("Cor da peça: ")
+            );
+        }
 
-        // criando uma carta de sorte
-        CartaSorte cartinha = new CartaSorte(40028922, "Bom dia & cia!");
-        // adicionando uma ação na carta
-        cartinha.setAcao("Muita felicidade :D");
-        System.out.println("\nCartinha de sorte criada!");
-        System.out.println("Id: " + cartinha.getId() + "\nDescrição: " + cartinha.getDescricao() + "\nAção: " + cartinha.getAcao());
+        AppUtils.log("\n\nJogadores cadastrados:\n");
+        for (int i = 0; i < numJogadores; i++)
+        {
+            AppUtils.log(jogadores[i]);
+            AppUtils.log("Peça: " + pecas[i].getCor() + "\n");
+        }
+
+        CartaSorte testeCartaSorte = new CartaSorte(34, "Curso 34");
+        testeCartaSorte.setTempo(5);
+        testeCartaSorte.setEfeito(-70);
+        AppUtils.log("\nTeste CartaSorte: " + testeCartaSorte.getDescricao()
+                     + " (" + testeCartaSorte.getId() + ")");
+
+ 
+        // testando propriedades
+        Propriedade[] props = new Propriedade[40];
+
+        // propriedade do tipo propriedade base mesmo
+        props[7] = new Propriedade("Propriedade apenas", 50, 5);
+        tab.addPropriedade(7);
+
+        props[19] = new Terreno("Av. Orosimbo Maia", 145, 12, 20, 30);
+        tab.addPropriedade(19);
+
+        props[16] = new Estacao("Demogorgon", 75, 10);
+        tab.addPropriedade(19);
+
+        props[30] = new ServicoPublico("Água", 60, 5);
+        tab.addPropriedade(30);
+
+        // propriedade base
+        props[7].calcularAluguel();
+
+        // terreno
+        props[19].calcularAluguel();
+
+        // estação
+        props[16].calcularAluguel();
+
+        // serviço público (precisa do argumento dados, como serviço, se não vai na implemenntação da base)
+        props[30].calcularAluguel();
+        ((ServicoPublico)props[30]).calcularAluguel(7);
+
+        tab.removePropriedade(16);
+
+        AppUtils.log("\n\n");
+        AppUtils.log(tab);
+
+        AppUtils.closeScan();
     }
 }

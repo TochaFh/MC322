@@ -4,10 +4,10 @@ public class Peca
     private int posicao;
     
     // Construtor
-    public Peca(String cor, int posicao)
+    public Peca(String cor)
     {
         this.cor = cor;
-        this.posicao = posicao;
+        this.posicao = 0;
     }
 
     // Getters e setters
