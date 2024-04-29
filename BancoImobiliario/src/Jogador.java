@@ -7,6 +7,8 @@
  */
 public class Jogador
 {
+    public static int DINHEIRO_INICIAL = 2558000; // 2.558.000
+
     private static int numJogadoresCriados = 0;
 
     private String nome;
@@ -15,16 +17,19 @@ public class Jogador
     private String foto;
     private int id;
     private int dinheiro;
+    private Peca peca;
 
     // Construtores
-    public Jogador(String nome, String cpf, String email, String foto)
+    public Jogador(String nome, String cpf, String email, String foto, Peca peca)
     {
         this.nome = nome;
         setCpf(cpf);
         setEmail(email);
         this.foto = foto;
+        this.peca = peca;
 
-        this.dinheiro = 500;
+        // valor default
+        this.dinheiro = DINHEIRO_INICIAL;
 
         // contagem para ID (começa a partir do 1)
         numJogadoresCriados++;
@@ -33,6 +38,12 @@ public class Jogador
 
 
     // Getters e setters
+
+    // id tem apenas get
+    public int getId()
+    {
+        return id;
+    }
 
     public String getNome()
     {
@@ -87,11 +98,9 @@ public class Jogador
     {
         this.foto = foto;
     }
-
-    // id tem apenas get
-    public int getId()
-    {
-        return id;
+    
+    public Peca getPeca() {
+        return peca;
     }
 
     public int getDinheiro()
@@ -119,6 +128,12 @@ public class Jogador
     // Método toString
     @Override
     public String toString() {
-        return "-- Jogador " + nome + "\nCpf: " + cpf + "\nEmail: " + email + "\nFoto: " + foto + "\nDinheiro: $" + dinheiro + "\n";
+        return "\n-- Jogador " + id + "\nNome: " + nome + "\nCpf: " + cpf
+        + "\nEmail: " + email + "\nFoto: " + foto + "\nDinheiro: $" + dinheiro + "\n";
+    }
+
+
+    public static int getNumJogadoresCriados() {
+        return numJogadoresCriados;
     }
 }

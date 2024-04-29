@@ -1,8 +1,10 @@
 public class Propriedade
 {
+    private static int numPropriedadesCriadas = 0;
+
     protected int id;
     protected String nome;
-    protected int proprietario;
+    protected Jogador proprietario;
     protected int preco;
     protected int aluguel;
     
@@ -11,19 +13,18 @@ public class Propriedade
         this.nome = nome;
         this.preco = preco;
         this.aluguel = aluguel;
+
+        numPropriedadesCriadas++;
+        this.id = numPropriedadesCriadas;
     }
 
     
     // Getters e setters
 
+    // id tem apenas get
     public int getId()
     {
         return id;
-    }
-    
-    public void setId(int id)
-    {
-        this.id = id;
     }
     
     public String getNome()
@@ -36,12 +37,12 @@ public class Propriedade
         this.nome = nome;
     }
     
-    public int getProprietario()
+    public Jogador getProprietario()
     {
         return proprietario;
     }
     
-    public void setProprietario(int proprietario)
+    public void setProprietario(Jogador proprietario)
     {
         this.proprietario = proprietario;
     }
@@ -72,5 +73,22 @@ public class Propriedade
     public int calcularAluguel()
     {
         return aluguel;
+    }
+
+    // Método toString
+    @Override
+    public String toString() {
+        String s = "\n-- Propriedade " + id + "\nNome: " + nome + "\nPreço: $" + getPreco() + "\nAluguel: $" + getAluguel();
+        
+        if (proprietario != null)
+        {
+            s += "\nProprietário: " + proprietario.getNome() + "\n";
+        }
+        else
+        {
+            s += "\nProprietário: BANCO" + "\n";
+        }
+
+        return s;
     }
 }

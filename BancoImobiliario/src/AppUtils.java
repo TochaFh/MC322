@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -71,7 +72,7 @@ public class AppUtils
 
     /**
      * Equivalente a 'scan.nextLine()'
-     * @param msg uma mensagem a ser imprimida antes de ler o input
+     * @param msg uma mensagem a ser impressa antes de ler o input
      * @return String lida
      */
     public static String readLine(String msg)
@@ -86,8 +87,20 @@ public class AppUtils
      */
     public static int readInt()
     {
-        int x = scan.nextInt();
-        readLine();
+        int x;
+
+        try
+        {
+            x = scan.nextInt();
+            readLine();
+        } 
+        catch (InputMismatchException e)
+        {
+            readLine();
+            System.out.print("**O termo digitado não é um número válido! Digite novamente: ");
+            x = readInt();
+        }
+        
         return x;
     }
 
