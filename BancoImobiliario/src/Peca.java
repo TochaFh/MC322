@@ -2,12 +2,14 @@ public class Peca
 {
     private String cor;
     private int posicao;
-    
+    private Jogador jogador;
+
     // Construtor
-    public Peca(String cor)
+    public Peca(String cor, Jogador j)
     {
         this.cor = cor;
         this.posicao = 0;
+        jogador = j;
     }
 
     // Getters e setters
@@ -29,5 +31,9 @@ public class Peca
     public void setPosicao(int posicao)
     {
         this.posicao = posicao;
+    }
+
+    public Jogador getJogador() {
+        return jogador;
     }
 }

@@ -71,4 +71,13 @@ public class Terreno extends Propriedade
         hotel = true;
         return true;
     }
+
+    // Método toString
+    @Override
+    public String toString() {
+        String s = super.toString();
+        s += "Valor casa: $" + getValorCasa() + "\nValor hotel: $" + getValorHotel() + "\n";
+
+        return s;
+    }
 }

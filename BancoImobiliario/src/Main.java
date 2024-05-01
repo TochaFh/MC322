@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Main
 {
     public static void main(String[] args)
@@ -7,6 +9,7 @@ public class Main
         System.out.println("\n** BANCO IMOBILIARIO **\n\n");
 
         Tabuleiro tab = setupTabuleiro();
+        gerarPropriedadesTabuleiro(tab);
 
         AppUtils.log(tab);
 
@@ -137,9 +140,46 @@ public class Main
             AppUtils.readLine("CPF: "), 
             AppUtils.readLine("Email: "),
             AppUtils.readLine("Foto: "),
-            new Peca(
-                AppUtils.readLine("Cor da peça: ")
-            )
+            AppUtils.readLine("Cor da peça: ")
         );
+    }
+
+    // 12 nomes de propriedade para a simulação
+    private static final String[] NOMES_DE_TERRENO = {
+        "Bangu",
+        "Botafogo",
+        "Av. Brasil",
+        "Avenida Paulisata",
+        "Jardim Europa",
+        "Copacabana",
+        "Avenida Vieira Souto",
+        "Avenida Atlântica",
+        "Ipanema",
+        "Jardim Paulista",
+        "Brooklin",
+        "Leblon"
+    };
+
+    public static void gerarPropriedadesTabuleiro(Tabuleiro tab)
+    {
+        Random rnd = new Random();
+        Propriedade p;
+        int preco, aluguel, valorCasa, valorHotel;
+
+        for (int i = 0; i < 12; i++)
+        {
+            // obs: por motivos apenas de simulação... esse cálculo nem faz tanto sentido
+            // na versão final haverá uma base de dados com valores pré determinados de cada coisa
+            preco = 150 + rnd.nextInt(500);
+            aluguel = preco / 16 + rnd.nextInt(7);
+            valorCasa = (aluguel * 3) - rnd.nextInt(5);
+            valorCasa = valorCasa - (valorCasa % 10);
+            valorHotel = valorCasa + 10 + (rnd.nextBoolean() ? 0 : 5);
+
+            p = new Terreno(NOMES_DE_TERRENO[i], preco, aluguel, valorCasa, valorHotel);
+            tab.addPropriedade(p);
+        }
+
+        // TODO: adicionar estações e serviços públicos
     }
 }

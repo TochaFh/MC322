@@ -20,13 +20,13 @@ public class Jogador
     private Peca peca;
 
     // Construtores
-    public Jogador(String nome, String cpf, String email, String foto, Peca peca)
+    public Jogador(String nome, String cpf, String email, String foto, String corPeca)
     {
         this.nome = nome;
         setCpf(cpf);
         setEmail(email);
         this.foto = foto;
-        this.peca = peca;
+        this.peca = new Peca(corPeca, this);
 
         // valor default
         this.dinheiro = DINHEIRO_INICIAL;
