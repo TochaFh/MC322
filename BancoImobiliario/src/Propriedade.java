@@ -1,10 +1,8 @@
-public class Propriedade
+public class Propriedade extends Carta
 {
     private static int numPropriedadesCriadas = 0;
 
-    protected int id;
     protected String nome;
-    protected Jogador proprietario;
     protected int preco;
     protected int aluguel;
     
@@ -35,16 +33,6 @@ public class Propriedade
     public void setNome(String nome)
     {
         this.nome = nome;
-    }
-    
-    public Jogador getProprietario()
-    {
-        return proprietario;
-    }
-    
-    public void setProprietario(Jogador proprietario)
-    {
-        this.proprietario = proprietario;
     }
     
     public int getPreco()
@@ -80,9 +68,9 @@ public class Propriedade
     public String toString() {
         String s = "\n-- Propriedade " + id + "\nNome: " + nome + "\nPreço: $" + getPreco() + "\nAluguel: $" + getAluguel();
         
-        if (proprietario != null)
+        if (this.temDono())
         {
-            s += "\nProprietário: " + proprietario.getNome() + "\n";
+            s += "\nProprietário: " + dono.getNome() + "\n";
         }
         else
         {

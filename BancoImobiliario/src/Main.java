@@ -11,110 +11,45 @@ public class Main
         Tabuleiro tab = setupTabuleiro();
         gerarPropriedadesTabuleiro(tab);
 
-        AppUtils.log(tab);
-
-        /*
-        // testando CartaSorte
-        CartaSorte testeCartaSorte = new CartaSorte(34, "Curso 34");
-        testeCartaSorte.setTempo(5);
-        testeCartaSorte.setEfeito(-70);
-        AppUtils.log("\nTeste CartaSorte: " + testeCartaSorte.getDescricao()
-                     + " (" + testeCartaSorte.getId() + ")\n");
-
- 
-        // testando propriedades
-
-        // propriedade do tipo propriedade base mesmo
-        var a = new Propriedade("Propriedade apenas", 50, 5);
-        tab.addPropriedade(a);
-
-        // terreno
-        var b = new Terreno("Av. Orosimbo Maia", 145, 12, 20, 30);
-        tab.addPropriedade(b);
-
-        // estação
-        var c = new Estacao("Demogorgon", 75, 10);
-        tab.addPropriedade(c);
-
-        // serviço público
-        var d = new ServicoPublico("Água", 60, 5);
-        tab.addPropriedade(d);
-
-        // o método 'calcularAluguel' deve ter saídas diferentes para cada tipo de propriedade
-
-        // propriedade base
-        a.calcularAluguel(); // não printa nada
-
-        // terreno
-        b.calcularAluguel();
-
-        // estação
-        c.calcularAluguel();
-
-        // serviço público (precisa do argumento dados, como serviço, se não vai na implemenntação da base)
-        d.calcularAluguel(); // não printa nada pois não foi implementada pelo ServicoPublico
-
-        // precisa fazer um cast pois o obverload do método com o argumento 'dados' não existe na classe mãe Propriedade
-        d.calcularAluguel(7);
-
-        // testando a função de remover propriedade do tabuleiro
-        tab.removePropriedadePorID(2);
-
-        // printando o que há no tabuleiro
+        String input = AppUtils.readLine("Ver informações do tabuleiro?\n[Y/n]: ");
+        if (input.toUpperCase().startsWith("Y"))
+        {
+            AppUtils.log(tab);
+        }
         AppUtils.log("\n");
-        AppUtils.log(tab);
 
-        
-        // compra de terrenos / casas
+        int id;
+        Jogador j;
 
-        int id = AppUtils.readInt("\nEscolha um jogador (id) para tentar comprar o terreno na Av. Orosimbo Maia: ");
-
-        // apenas teste... pegando o id que sabe-se que é um terreno e fazendo o cast
-        Terreno t = b;
-
-        if (id <= tab.getNumJogadores() && id > 0) // se o jogador do id existe
+        for (int i = 1; ; i++)
         {
-            j = tab.getJogador(id - 1);
+            AppUtils.log("------ RODADA " + i + " ------\n");
 
-            if (j.getDinheiro() >= t.getPreco()) // se tem dinheiro para comprar
-            {
-                AppUtils.log(j.getNome() + " tem $" + j.getDinheiro());
+            AppUtils.log("Jogadores:\n" + tab.listagemJogadores());
+            id = AppUtils.readInt("Digite o id do jogador a ser verificado (0 para encerrar o programa):");
 
-                // jogador comprando o terreno
-                // por enquanto simbólico, depois haverá uma lista das propriedades do jogador
-                j.somarDinheiro(- t.getPreco());
+            if (id == 0) break;
 
-                AppUtils.log(j.getNome() + " comprou o terreno na Av. Orosimbo Maia por $" + t.getPreco());
-                AppUtils.log(j.getNome() + " ficou com $" + j.getDinheiro());
+            j = tab.getJogador(id);
 
-                // jogador comprando o terreno
-                j.somarDinheiro(- t.getValorCasa());
-                t.comprarCasa();
+            AppUtils.log("Jogador " + j.getId() + ":");
+            AppUtils.log(j.getNome() + "\n" + "$" + j.getDinheiro());
+            AppUtils.log("Posição: " + j.getPeca().getPosicao());
+            AppUtils.log("Propriedades: " + j.listaPropriedades());
+            AppUtils.log("Cartas de sorte guardadas: " + j.listaCartasDeSorte());
 
-                AppUtils.log(j.getNome() + " agora comprou uma casa na Av. Orosimbo Maia por $" + t.getValorCasa());
-                AppUtils.log(j.getNome() + " ficou com $" + j.getDinheiro());
-                AppUtils.log("Agora o jogador tem " + t.getNumeroCasas() + " casa(s) na Av. Orosimbo Maia.");
-            }
-            else
-            {
-                AppUtils.log(j.getNome() + " tem $" + j.getDinheiro());
-                AppUtils.log("Não é o suficiente para comprar o terreno na Av. Orosimbo Maia que vale $" + t.getPreco());
-            }
+            // TODO: aqui serão realizadas as jogadas de cada jogador
+            // jogar os dados, mover a posição e interagir com a casa que cair
+            // comprar propriedades
+            // cartas de sorte
+
+            AppUtils.log("\n\n");
         }
-
-        // testando a remoção de jogadores do tabuleiro
-        id = AppUtils.readInt("\nDigite um jogador (id) para remover do tabuleiro: ");
-        if (id <= tab.getNumJogadores() && id > 0) // se o jogador do id existe
-        {
-            tab.removeJogadorPorID(id);
-        }
-
-        // printando novamente o que há no tabuleiro (um jogador pode ter sido removido)
-        AppUtils.log(tab); */
 
         AppUtils.closeScan();
     }
 
+    // cria um tabuleiro e adiciona os jogadores do input
     public static Tabuleiro setupTabuleiro()
     {
         int n = AppUtils.readInt("Digite o número de jogadores: ");
@@ -133,6 +68,7 @@ public class Main
         return tab;
     }
 
+    // lê o input de um jogador
     public static Jogador lerJogador()
     {
         return new Jogador(
@@ -160,6 +96,8 @@ public class Main
         "Leblon"
     };
 
+    // adiciona propriedades ao tabuleiro
+    // por enquanto é mais para testes
     public static void gerarPropriedadesTabuleiro(Tabuleiro tab)
     {
         Random rnd = new Random();

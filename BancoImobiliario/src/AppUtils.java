@@ -56,7 +56,7 @@ public class AppUtils
     /**
      * @return a instância de Scanner utilizada nesta classe
      */
-    public static Scanner scan()
+    public static Scanner getScan()
     {
         return scan;
     }

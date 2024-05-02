@@ -1,7 +1,5 @@
-public class CartaSorte
+public class CartaSorte extends Carta
 {
-    private int id;
-    private String descricao;
     private int movimento;
     private int efeito;
     private float valor;
@@ -16,25 +14,6 @@ public class CartaSorte
     }
 
     // Getters e setters
-    public int getId()
-    {
-        return id;
-    }
-    
-    public void setId(int id)
-    {
-        this.id = id;
-    }
-    
-    public String getDescricao()
-    {
-        return descricao;
-    }
-    
-    public void setDescricao(String descricao)
-    {
-        this.descricao = descricao;
-    }
     
     public int getMovimento()
     {

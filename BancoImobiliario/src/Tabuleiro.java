@@ -7,6 +7,11 @@ public class Tabuleiro
     private int numJogadores;
     private ArrayList<Jogador> jogadores;
     private ArrayList<Propriedade> propriedades;
+    private ArrayList<CartaSorte> cartasDeSorteNaMesa;
+
+    // TODO; definir o sistema que relacione as posições/casas do tabuleiro com as propriedades
+    // pode ser a própria lista de propriedades em loop,
+    // desde que todas as casas do tabuleiros tenham uma propriedade
 
     // Construtores
     public Tabuleiro(int numJogadores)
@@ -14,10 +19,12 @@ public class Tabuleiro
         this.numJogadores = numJogadores;
         jogadores = new ArrayList<Jogador>(numJogadores);
         propriedades = new ArrayList<Propriedade>();
+        cartasDeSorteNaMesa = new ArrayList<CartaSorte>();
     }
 
     public Jogador getJogador(int id)
     {
+        // não necessariamente o id do jogador será igual sua chave na lista
         for (int i = 0; i < jogadores.size(); i++)
         {
             if (jogadores.get(i).getId() == id)
@@ -27,7 +34,7 @@ public class Tabuleiro
         }
 
         //throw new Exception("Jogador de id " + id + " inexistente no tabuleiro!");
-        AppUtils.log("Jogador de id " + id + " inexistente no tabuleiro!");
+        AppUtils.log("ERRO: Jogador de id " + id + " inexistente no tabuleiro!");
         return null;
     }
 
@@ -84,11 +91,10 @@ public class Tabuleiro
         return false;
     }
 
-    @Override
-    public String toString() {
-        return "Tabuleiro:\nJogadores: " + jogadores + "\nPropriedades: " + propriedades + "\n";
+    public ArrayList<CartaSorte> getCartasDeSorteNaMesa() {
+        return cartasDeSorteNaMesa;
     }
-
+    
     public int getNumJogadores() {
         return numJogadores;
     }
@@ -99,5 +105,23 @@ public class Tabuleiro
 
     public ArrayList<Propriedade> getPropriedades() {
         return propriedades;
+    }
+
+    @Override
+    public String toString() {
+        return "Tabuleiro:\nJogadores: " + jogadores + "\nPropriedades: " + propriedades + "\n";
+    }
+
+    public String listagemJogadores()
+    {
+        String str = "";
+
+        for (Jogador j : jogadores)
+        {
+            str += j.getId() + " - " + j.getNome() + " - $"
+                + j.getDinheiro() + "\n";
+        }
+
+        return str;
     }
 }

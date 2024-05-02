@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Representa um jogador do banco imobiliário.
  * Contém as informações de cadastro (email, cpf etc).
@@ -19,6 +21,14 @@ public class Jogador
     private int dinheiro;
     private Peca peca;
 
+    // faz mais sentido armazenar as cartas de sorte de forma separada das propriedades
+    private ArrayList<Propriedade> propriedades;
+
+    private ArrayList<CartaSorte> cartasDeSorte;
+
+
+
+
     // Construtores
     public Jogador(String nome, String cpf, String email, String foto, String corPeca)
     {
@@ -30,6 +40,9 @@ public class Jogador
 
         // valor default
         this.dinheiro = DINHEIRO_INICIAL;
+
+        propriedades = new ArrayList<Propriedade>();
+        cartasDeSorte = new ArrayList<CartaSorte>();
 
         // contagem para ID (começa a partir do 1)
         numJogadoresCriados++;
@@ -103,6 +116,14 @@ public class Jogador
         return peca;
     }
 
+    public ArrayList<Propriedade> getPropriedades() {
+        return propriedades;
+    }
+
+    public ArrayList<CartaSorte> getCartasDeSorte() {
+        return cartasDeSorte;
+    }
+
     public int getDinheiro()
     {
         return dinheiro;
@@ -124,6 +145,10 @@ public class Jogador
         return dinheiro > 0;
     }
 
+    public static int getNumJogadoresCriados() {
+        return numJogadoresCriados;
+    }
+
 
     // Método toString
     @Override
@@ -132,8 +157,33 @@ public class Jogador
         + "\nEmail: " + email + "\nFoto: " + foto + "\nDinheiro: $" + dinheiro + "\n";
     }
 
+    public String listaPropriedades()
+    {
+        if (propriedades.size() == 0)
+        {
+            return "Não possui propriedades";
+        }
 
-    public static int getNumJogadoresCriados() {
-        return numJogadoresCriados;
+        String str = "";
+        for (Propriedade p : propriedades) {
+            str += p.getNome() + ", ";
+        }
+        
+        return  str.substring(0, str.length() - 2);
+    }
+
+    public String listaCartasDeSorte()
+    {
+        if (cartasDeSorte.size() == 0)
+        {
+            return "Não possui nenhuma carta de sorte";
+        }
+
+        String str = "";
+        for (CartaSorte c : cartasDeSorte) {
+            str += c.getDescricao() + ", ";
+        }
+        
+        return  str.substring(0, str.length() - 2);
     }
 }
