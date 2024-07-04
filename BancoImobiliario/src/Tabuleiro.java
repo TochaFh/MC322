@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 /* Armazena uma lista de jogadores e outra de propriedades
 */
-public class Tabuleiro
+public class Tabuleiro implements ISalvavel
 {
     private int numJogadores;
     private ArrayList<Jogador> jogadores;
@@ -12,6 +12,8 @@ public class Tabuleiro
     private ArrayList<Estacao> estacoes;
     private ArrayList<ServicoPublico> servicos;
     private ArrayList<Terreno> terrenos;
+
+    private String log;
 
     // TODO; definir o sistema que relacione as posições/casas do tabuleiro com as propriedades
     // pode ser a própria lista de propriedades em loop,
@@ -167,4 +169,16 @@ public class Tabuleiro
 
         return true;
     }
+
+    @Override
+    public void salvaLog() {
+
+        //TODO: implementar log
+        log = "log não carregado...";
+
+        String nomeArquivo = "log_" + Main.getCodigoJogo() + ".txt";
+        AppUtils.escreverAqrquivoTxt(nomeArquivo, log);
+    }
+
+    
 }

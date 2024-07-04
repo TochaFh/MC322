@@ -1,3 +1,6 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -181,5 +184,18 @@ public class AppUtils
     {
         Matcher matcher = PATTERN_EMAIL.matcher(email);
         return matcher.matches();
+    }
+
+    public static void escreverAqrquivoTxt(String caminhoArquivo, String texto) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(caminhoArquivo));
+            writer.write(texto);
+
+            writer.close();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
     }
 }

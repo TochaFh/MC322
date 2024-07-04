@@ -1,14 +1,23 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 public class Main
 {
     private static Tabuleiro tabuleiroJogo;
+
+    private static String codigoJogo;
     
     public static void main(String[] args)
     {
         AppUtils.openScan();
 
-        System.out.println("\n** BANCO IMOBILIARIO **\n\n");
+        codigoJogo = gerarCodigoJogo();
+        
+        System.out.println("\n** BANCO IMOBILIARIO **      (jogo: " + codigoJogo + ")\n\n");
+
+        AppUtils.escreverAqrquivoTxt(codigoJogo, "aivboaibvoavo\n\n:D");
+
 
         Tabuleiro tab = setupTabuleiro();
         gerarPropriedadesTabuleiro(tab);
@@ -49,6 +58,8 @@ public class Main
 
             AppUtils.log("\n\n");
         }
+
+        tab.salvaLog();
 
         AppUtils.closeScan();
     }
@@ -143,8 +154,6 @@ public class Main
                 j++;
             }
         }
-
-        // TODO: adicionar estações e serviços públicos
     }
 
     // gambiarrinha :D
@@ -152,5 +161,21 @@ public class Main
     public static Tabuleiro getTabuleiro()
     {
         return tabuleiroJogo;
+    }
+
+    private static String gerarCodigoJogo()
+    {
+        String s = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        s = s.substring(0, 19);
+        s = s.replace('-', '.');
+        s = s.replace(':', '.');
+        s = s.replace('T', '_');
+
+        return s;
+    }
+
+    public static String getCodigoJogo()
+    {
+        return codigoJogo;
     }
 }
