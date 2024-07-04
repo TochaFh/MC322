@@ -1,5 +1,7 @@
 public class CartaSorte extends Carta
 {
+    TipoCarta tipo;
+
     private int movimento;
     private int efeito;
     private float valor;
@@ -8,8 +10,8 @@ public class CartaSorte extends Carta
     private String restricao;
     
     // Construtores
-    public CartaSorte(int id, String descricao) {
-        this.id = id;
+    public CartaSorte(TipoCarta tipo, String descricao) {
+        this.tipo = tipo;
         this.descricao = descricao;
     }
 
@@ -73,5 +75,10 @@ public class CartaSorte extends Carta
     public void setRestricao(String restricao)
     {
         this.restricao = restricao;
+    }
+
+    public void ExecutarAcao(Jogador jogador)
+    {
+        // TODO: implementar
     }
 }
