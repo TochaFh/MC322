@@ -2,6 +2,8 @@ import java.util.Random;
 
 public class Main
 {
+    private static Tabuleiro tabuleiroJogo;
+    
     public static void main(String[] args)
     {
         AppUtils.openScan();
@@ -10,6 +12,8 @@ public class Main
 
         Tabuleiro tab = setupTabuleiro();
         gerarPropriedadesTabuleiro(tab);
+
+        tabuleiroJogo = tab;
 
         String input = AppUtils.readLine("Ver informações do tabuleiro?\n[Y/n]: ");
         if (input.toUpperCase().startsWith("Y"))
@@ -50,7 +54,7 @@ public class Main
     }
 
     // cria um tabuleiro e adiciona os jogadores do input
-    public static Tabuleiro setupTabuleiro()
+    private static Tabuleiro setupTabuleiro()
     {
         int n = AppUtils.readInt("Digite o número de jogadores: ");
         Tabuleiro tab = new Tabuleiro(n);
@@ -69,7 +73,7 @@ public class Main
     }
 
     // lê o input de um jogador
-    public static Jogador lerJogador()
+    private static Jogador lerJogador()
     {
         return new Jogador(
             AppUtils.readLine("Nome: "),
@@ -96,15 +100,29 @@ public class Main
         "Leblon"
     };
 
+    private static final String[] NOMES_DE_SERVICO = {
+        "Companhia de água",
+        "Companhia de luz",
+        "Companhia de turismo"
+    };
+
+    private static final String[] NOMES_DE_ESTACAO = {
+        "Estação da Luz",
+        "Estação Estática",
+        "Estação Atocha"
+    };
+
     // adiciona propriedades ao tabuleiro
     // por enquanto é mais para testes
-    public static void gerarPropriedadesTabuleiro(Tabuleiro tab)
+    private static void gerarPropriedadesTabuleiro(Tabuleiro tab)
     {
         Random rnd = new Random();
         Propriedade p;
         int preco, aluguel, valorCasa, valorHotel;
 
-        for (int i = 0; i < 12; i++)
+        int j = 0;
+
+        for (int i = 1; i <= 12; i++)
         {
             // obs: por motivos apenas de simulação... esse cálculo nem faz tanto sentido
             // na versão final haverá uma base de dados com valores pré determinados de cada coisa
@@ -114,10 +132,25 @@ public class Main
             valorCasa = valorCasa - (valorCasa % 10);
             valorHotel = valorCasa + 10 + (rnd.nextBoolean() ? 0 : 5);
 
-            p = new Terreno(NOMES_DE_TERRENO[i], preco, aluguel, valorCasa, valorHotel);
+            p = new Terreno(NOMES_DE_TERRENO[i - 1], preco, aluguel, valorCasa, valorHotel);
             tab.addPropriedade(p);
+
+            // adiciona uma estação e um serviço publico a cada 4 casas
+            if (i % 4 == 0)
+            {
+                tab.addPropriedade(new ServicoPublico(NOMES_DE_SERVICO[j], 300, 30));
+                tab.addPropriedade(new Estacao(NOMES_DE_ESTACAO[j], 280, 50));
+                j++;
+            }
         }
 
         // TODO: adicionar estações e serviços públicos
+    }
+
+    // gambiarrinha :D
+    // O tabuleiro do jogo fica de fácil acesso para todas as classes
+    public static Tabuleiro getTabuleiro()
+    {
+        return tabuleiroJogo;
     }
 }

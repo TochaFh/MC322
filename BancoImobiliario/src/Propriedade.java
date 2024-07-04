@@ -1,4 +1,4 @@
-public class Propriedade extends Carta
+public abstract class Propriedade extends Carta
 {
     private static int numPropriedadesCriadas = 0;
 
@@ -58,10 +58,7 @@ public class Propriedade extends Carta
 
     // Métodos
 
-    public int calcularAluguel()
-    {
-        return aluguel;
-    }
+    public abstract int calcularAluguel();
 
     // Método toString
     @Override

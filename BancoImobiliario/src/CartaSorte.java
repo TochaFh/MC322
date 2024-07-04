@@ -4,15 +4,16 @@ public class CartaSorte extends Carta
 
     private int movimento;
     private int efeito;
-    private float valor;
+    private int valor;
     private String acao;
     private int tempo;
     private String restricao;
     
     // Construtores
-    public CartaSorte(TipoCarta tipo, String descricao) {
+    public CartaSorte(TipoCarta tipo, String descricao, int valor) {
         this.tipo = tipo;
         this.descricao = descricao;
+        this.valor = valor;
     }
 
     // Getters e setters
@@ -37,12 +38,12 @@ public class CartaSorte extends Carta
         this.efeito = efeito;
     }
     
-    public float getValor()
+    public int getValor()
     {
         return valor;
     }
     
-    public void setValor(float valor)
+    public void setValor(int valor)
     {
         this.valor = valor;
     }
@@ -79,6 +80,7 @@ public class CartaSorte extends Carta
 
     public void ExecutarAcao(Jogador jogador)
     {
-        // TODO: implementar
+        AppUtils.log("Executando ação da carta " + tipo.toString() + ":\n" + this.descricao);
+        jogador.somarDinheiro(valor);
     }
 }

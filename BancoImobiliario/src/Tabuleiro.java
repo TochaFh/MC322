@@ -6,8 +6,12 @@ public class Tabuleiro
 {
     private int numJogadores;
     private ArrayList<Jogador> jogadores;
-    private ArrayList<Propriedade> propriedades;
     private ArrayList<CartaSorte> cartasDeSorteNaMesa;
+    private ArrayList<Propriedade> propriedades;
+
+    private ArrayList<Estacao> estacoes;
+    private ArrayList<ServicoPublico> servicos;
+    private ArrayList<Terreno> terrenos;
 
     // TODO; definir o sistema que relacione as posições/casas do tabuleiro com as propriedades
     // pode ser a própria lista de propriedades em loop,
@@ -18,8 +22,12 @@ public class Tabuleiro
     {
         this.numJogadores = numJogadores;
         jogadores = new ArrayList<Jogador>(numJogadores);
-        propriedades = new ArrayList<Propriedade>();
         cartasDeSorteNaMesa = new ArrayList<CartaSorte>();
+        propriedades = new ArrayList<Propriedade>();
+
+        estacoes = new ArrayList<Estacao>();
+        servicos = new ArrayList<ServicoPublico>();
+        terrenos = new ArrayList<Terreno>();
     }
 
     public Jogador getJogador(int id)
@@ -69,13 +77,22 @@ public class Tabuleiro
 
     public boolean addPropriedade(Propriedade p)
     {
+        if (p instanceof Terreno)
+            terrenos.add((Terreno)p);
+
+        else if (p instanceof ServicoPublico)
+            servicos.add((ServicoPublico)p);
+
+        else if (p instanceof Estacao)
+            estacoes.add((Estacao)p);
+
         return propriedades.add(p);
     }
 
-    public boolean removePropriedade(Propriedade p)
+    /*public boolean removePropriedade(Propriedade p)
     {
         return propriedades.remove(p);
-    }
+    }*/
 
     public boolean removePropriedadePorID(int id)
     {
@@ -123,5 +140,31 @@ public class Tabuleiro
         }
 
         return str;
+    }
+
+    public boolean todosServicosMesmoDono()
+    {
+        Jogador dono = servicos.get(0).getDono();
+        for (ServicoPublico s : servicos) {
+            if (dono != s.getDono())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean todasEstacoesMesmoDono()
+    {
+        Jogador dono = estacoes.get(0).getDono();
+        for (Estacao e : estacoes) {
+            if (dono != e.getDono())
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

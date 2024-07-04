@@ -1,14 +1,36 @@
 public class ServicoPublico extends Propriedade
 {
-    // Métodos
+    private int multiplicador;
 
     public ServicoPublico(String nome, int preco, int aluguel) {
         super(nome, preco, aluguel);
     }
+    
 
-    public int calcularAluguel(int dados)
+    // Getters e setters
+
+    public int getMultiplicador() {
+        return multiplicador;
+    }
+    
+    public void setMultiplicador(int multiplicador) {
+        this.multiplicador = multiplicador;
+    }
+    
+
+    // Métodos
+
+    public int calcularAluguel()
     {
         AppUtils.log("$ calculando aluguel SERVIÇO PÚBLICO " + nome);
-        return dados * this.aluguel;
+        int valor = multiplicador * this.aluguel;
+
+        // caso o dono do serviço tenha todos os serviços do jogo, o valor é dobrado
+        if (Main.getTabuleiro().todosServicosMesmoDono())
+        {
+            valor *= 2;
+        }
+
+        return valor;
     }
 }
