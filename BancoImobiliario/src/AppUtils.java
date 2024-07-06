@@ -3,6 +3,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -198,4 +199,23 @@ public class AppUtils
         }
 
     }
+
+    public static void delay(int millis)
+    {
+        try {
+            TimeUnit.MILLISECONDS.sleep(millis);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /*public static void esperarEnterKey()
+    {
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }*/
 }

@@ -14,6 +14,7 @@ public class Tabuleiro implements ISalvavel
     private ArrayList<Terreno> terrenos;
 
     private String log;
+    private Jogada ultimaJogada;
 
     // TODO; definir o sistema que relacione as posições/casas do tabuleiro com as propriedades
     // pode ser a própria lista de propriedades em loop,
@@ -30,6 +31,8 @@ public class Tabuleiro implements ISalvavel
         estacoes = new ArrayList<Estacao>();
         servicos = new ArrayList<ServicoPublico>();
         terrenos = new ArrayList<Terreno>();
+
+        ultimaJogada = new Jogada();
     }
 
     public Jogador getJogador(int id)
@@ -70,6 +73,11 @@ public class Tabuleiro implements ISalvavel
         }
 
         return false;
+    }
+
+    public Jogada getUltimaJogada()
+    {
+        return ultimaJogada;
     }
 
     public Propriedade getPropriedade(int id)
@@ -126,6 +134,11 @@ public class Tabuleiro implements ISalvavel
         return propriedades;
     }
 
+    public int getNumCasas()
+    {
+        return propriedades.size();
+    }
+
     @Override
     public String toString() {
         return "Tabuleiro:\nJogadores: " + jogadores + "\nPropriedades: " + propriedades + "\n";
@@ -180,5 +193,15 @@ public class Tabuleiro implements ISalvavel
         AppUtils.escreverAqrquivoTxt(nomeArquivo, log);
     }
 
-    
+
+    /**
+     * Faz um novo lançaento de dados e move a peça do jogador que os lançou.
+     * Atualiza o estado da 'ultimaJogada' chamando o método 'rejogar()'
+     * @param j jogador que está jogando os dados
+     */
+    public void novaJogada(Jogador j)
+    {
+        ultimaJogada.rejogar(j);
+        j.getPeca().move(ultimaJogada.somaDados, this);
+    }
 }

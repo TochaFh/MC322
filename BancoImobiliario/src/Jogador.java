@@ -186,4 +186,13 @@ public class Jogador
         
         return  str.substring(0, str.length() - 2);
     }
+
+    public void printBasico()
+    {
+        AppUtils.log("JOGADOR " + this.getId() + ":");
+        AppUtils.log(this.getNome() + "\n" + "$" + this.getDinheiro());
+        AppUtils.log("Posição: " + this.getPeca().getPosicao());
+        AppUtils.log("Propriedades: " + this.listaPropriedades());
+        AppUtils.log("Cartas de sorte guardadas: " + this.listaCartasDeSorte());
+    }
 }

@@ -8,9 +8,10 @@ public class Peca
     public Peca(String cor, Jogador j)
     {
         this.cor = cor;
-        this.posicao = 0;
+        this.posicao = 1;
         dono = j;
     }
+
 
     // Getters e setters
     public String getCor()
@@ -35,5 +36,15 @@ public class Peca
 
     public Jogador getDono() {
         return dono;
+    }
+
+
+    // Métodos
+    public void move(int numCasas, Tabuleiro tab)
+    {
+        posicao += numCasas;
+        int posicaoMax = tab.getNumCasas();
+
+        posicao = posicao % posicaoMax;
     }
 }

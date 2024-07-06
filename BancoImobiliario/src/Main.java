@@ -16,9 +16,6 @@ public class Main
         
         System.out.println("\n** BANCO IMOBILIARIO **      (jogo: " + codigoJogo + ")\n\n");
 
-        AppUtils.escreverAqrquivoTxt(codigoJogo, "aivboaibvoavo\n\n:D");
-
-
         Tabuleiro tab = setupTabuleiro();
         gerarPropriedadesTabuleiro(tab);
 
@@ -33,30 +30,50 @@ public class Main
 
         int id;
         Jogador j;
+        int posicao;
+        Propriedade p;
 
         for (int i = 1; ; i++)
         {
             AppUtils.log("------ RODADA " + i + " ------\n");
 
-            AppUtils.log("Jogadores:\n" + tab.listagemJogadores());
-            id = AppUtils.readInt("Digite o id do jogador a ser verificado (0 para encerrar o programa):");
+            Jogada ultimaJogada = tab.getUltimaJogada();
 
-            if (id == 0) break;
+            // jogadas
+            for (id = 1; id <= tab.getNumJogadores(); id++)
+            {
+                j = tab.getJogador(id);
+                AppUtils.log("\n");
+                j.printBasico();
 
-            j = tab.getJogador(id);
+                AppUtils.log("\nRolando dados...");
+                AppUtils.delay(1000);
+                
+                // atualiza o estado da "ultimaJogada"
+                tab.novaJogada(j);
+                AppUtils.log(ultimaJogada);
 
-            AppUtils.log("Jogador " + j.getId() + ":");
-            AppUtils.log(j.getNome() + "\n" + "$" + j.getDinheiro());
-            AppUtils.log("Posição: " + j.getPeca().getPosicao());
-            AppUtils.log("Propriedades: " + j.listaPropriedades());
-            AppUtils.log("Cartas de sorte guardadas: " + j.listaCartasDeSorte());
+                posicao = j.getPeca().getPosicao();
+                AppUtils.log("> Caiu na posição " + posicao + ".");
+                p = tab.getPropriedade(posicao);
+                AppUtils.log("> Propriedade: " + p.getNome() + ".");
 
-            // TODO: aqui serão realizadas as jogadas de cada jogador
-            // jogar os dados, mover a posição e interagir com a casa que cair
-            // comprar propriedades
-            // cartas de sorte
+                if (!p.temDono()) // do banco
+                {
+                    // TODO: opção de comprar casa
+                }
+                else if (p.getDono() != j)
+                {
+                    // TODO: pagar aluguel
+                }
+            }
 
             AppUtils.log("\n\n");
+
+            if (tab.getNumJogadores() <= 1)
+            {
+                break;
+            }
         }
 
         tab.salvaLog();
