@@ -21,14 +21,14 @@ public class Main
 
         tabuleiroJogo = tab;
 
-        String input = AppUtils.readLine("Ver informações do tabuleiro?\n[Y/n]: ");
-        if (input.toUpperCase().startsWith("Y"))
+        if (AppUtils.yesOrNo("Ver informações do tabuleiro?\n[Y/n]: "))
         {
             AppUtils.log(tab);
+            AppUtils.esperarEnterKey("Continuar (enter)");
         }
+
         AppUtils.log("\n");
 
-        int id;
         Jogador j;
         int posicao;
         Propriedade p;
@@ -40,41 +40,85 @@ public class Main
             Jogada ultimaJogada = tab.getUltimaJogada();
 
             // jogadas
-            for (id = 1; id <= tab.getNumJogadores(); id++)
+            for (int h = 1; h <= tab.getNumJogadores(); h++)
             {
-                j = tab.getJogador(id);
+                j = tab.getJogador(h);
                 AppUtils.log("\n");
                 j.printBasico();
 
-                AppUtils.log("\nRolando dados...");
+                AppUtils.log("\nRolar dados...");
                 AppUtils.delay(1000);
                 
                 // atualiza o estado da "ultimaJogada"
-                tab.novaJogada(j);
+                tab.novaJogada(j, i);
                 AppUtils.log(ultimaJogada);
 
                 posicao = j.getPeca().getPosicao();
                 AppUtils.log("> Caiu na posição " + posicao + ".");
                 p = tab.getPropriedade(posicao);
-                AppUtils.log("> Propriedade: " + p.getNome() + ".");
+                AppUtils.log("> Propriedade: " + p.getNome() + " [dono(a):" + p.getDono() + "]");
 
                 if (!p.temDono()) // do banco
                 {
-                    // TODO: opção de comprar casa
+                    AppUtils.log("> Preço: $" + p.getPreco());
+
+                    if (AppUtils.yesOrNo("- Deseja comprar a propriedade (" + p.getNome() + ")? [Y/n] "))
+                    {
+                        // a função 'comprarPropriedade' lança uma excessão no caso do jogador não ter dinheiro suficiente
+                        try
+                        {
+                            j.comprarPropriedade(p);
+                            AppUtils.log("Propriedade (" + p.getNome() + ") comprada com sucesso!");
+                        }
+                        catch (SaldoInsuficienteException e)
+                        {
+                            AppUtils.log(e.getMessage());
+                        }
+                    }
+
                 }
-                else if (p.getDono() != j)
+                else if (p.getDono() != j) // tem dono e não é o próprio jogador j
                 {
-                    // TODO: pagar aluguel
+                    AppUtils.esperarEnterKey(">> Aluguel de $" + p.calcularAluguel() + " a pagar! (pressione 'Enter')");
+
+                    try
+                    {
+                        j.pagarAluguel(p);
+                    }
+                    catch (SaldoInsuficienteException e)
+                    {
+                        AppUtils.log(e.getMessage());
+
+                        AppUtils.log("Jogador " + j.getNome() + " MORTO!");
+                        tab.removeJogador(j);
+                        if (tab.getNumJogadores() <= 1)
+                        {
+                            break;
+                        }
+                    }
                 }
+
+                // TODO: opção de comprar casinhas/hotel
             }
 
             AppUtils.log("\n\n");
 
             if (tab.getNumJogadores() <= 1)
             {
+                j = tab.getJogadores().get(0);
                 break;
             }
         }
+
+        AppUtils.log("\n\n");
+
+        for (int i = 0; i < 5; i++)
+        {
+            AppUtils.log("-");
+            AppUtils.delay(200);
+        }
+        
+        AppUtils.log("-");
 
         tab.salvaLog();
 
@@ -84,10 +128,22 @@ public class Main
     // cria um tabuleiro e adiciona os jogadores do input
     private static Tabuleiro setupTabuleiro()
     {
-        int n = AppUtils.readInt("Digite o número de jogadores: ");
+        int n;
+        do
+        {
+            n = AppUtils.readInt("Digite o número de jogadores (deve ser igual ou maior a 2): ");
+        } while (n < 2);
+        
         Tabuleiro tab = new Tabuleiro(n);
 
-        Jogador.DINHEIRO_INICIAL = AppUtils.readInt("Digite a quantia de dinheiro inicial de cada jogadar: ");
+        int dinheiroInicial = AppUtils.readInt("Digite a quantia de dinheiro inicial de cada jogadar: ");
+
+        while (dinheiroInicial <= 0)
+        {
+            dinheiroInicial = AppUtils.readInt("Dinheiro inicial deve ser maior que 0! Digite novamente: ");
+        }
+
+        Jogador.DINHEIRO_INICIAL = dinheiroInicial;
 
         for (int i = 0; i < n; i++)
         {

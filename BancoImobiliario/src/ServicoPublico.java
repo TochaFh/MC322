@@ -22,6 +22,8 @@ public class ServicoPublico extends Propriedade
 
     public int calcularAluguel()
     {
+        multiplicador = Main.getTabuleiro().getUltimaJogada().somaDados;
+
         AppUtils.log("$ calculando aluguel SERVIÇO PÚBLICO " + nome);
         int valor = multiplicador * this.aluguel;
 

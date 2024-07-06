@@ -4,7 +4,6 @@ import java.util.ArrayList;
 */
 public class Tabuleiro implements ISalvavel
 {
-    private int numJogadores;
     private ArrayList<Jogador> jogadores;
     private ArrayList<CartaSorte> cartasDeSorteNaMesa;
     private ArrayList<Propriedade> propriedades;
@@ -16,14 +15,11 @@ public class Tabuleiro implements ISalvavel
     private String log;
     private Jogada ultimaJogada;
 
-    // TODO; definir o sistema que relacione as posições/casas do tabuleiro com as propriedades
-    // pode ser a própria lista de propriedades em loop,
-    // desde que todas as casas do tabuleiros tenham uma propriedade
+    // TODO; adicionar sistema de casas no tabuleiro (casa inicial com salário e casas de carta de sorte ou reves)
 
     // Construtores
     public Tabuleiro(int numJogadores)
     {
-        this.numJogadores = numJogadores;
         jogadores = new ArrayList<Jogador>(numJogadores);
         cartasDeSorteNaMesa = new ArrayList<CartaSorte>();
         propriedades = new ArrayList<Propriedade>();
@@ -35,20 +31,13 @@ public class Tabuleiro implements ISalvavel
         ultimaJogada = new Jogada();
     }
 
-    public Jogador getJogador(int id)
+    /**
+     * @param index NÃO é o id do jogador
+     * @return jogador do index na lista de jogadores (Que ainda estão np jogo)
+     */
+    public Jogador getJogador(int index)
     {
-        // não necessariamente o id do jogador será igual sua chave na lista
-        for (int i = 0; i < jogadores.size(); i++)
-        {
-            if (jogadores.get(i).getId() == id)
-            {
-                return jogadores.get(i);
-            }
-        }
-
-        //throw new Exception("Jogador de id " + id + " inexistente no tabuleiro!");
-        AppUtils.log("ERRO: Jogador de id " + id + " inexistente no tabuleiro!");
-        return null;
+        return jogadores.get(index);
     }
 
     public boolean addJogador(Jogador j)
@@ -123,7 +112,7 @@ public class Tabuleiro implements ISalvavel
     }
     
     public int getNumJogadores() {
-        return numJogadores;
+        return jogadores.size();
     }
 
     public ArrayList<Jogador> getJogadores() {
@@ -151,7 +140,7 @@ public class Tabuleiro implements ISalvavel
         for (Jogador j : jogadores)
         {
             str += j.getId() + " - " + j.getNome() + " - $"
-                + j.getDinheiro() + "\n";
+                + j.getSaldo() + "\n";
         }
 
         return str;
@@ -199,9 +188,9 @@ public class Tabuleiro implements ISalvavel
      * Atualiza o estado da 'ultimaJogada' chamando o método 'rejogar()'
      * @param j jogador que está jogando os dados
      */
-    public void novaJogada(Jogador j)
+    public void novaJogada(Jogador j, int numeroDaRodada)
     {
-        ultimaJogada.rejogar(j);
+        ultimaJogada.rejogar(j, numeroDaRodada);
         j.getPeca().move(ultimaJogada.somaDados, this);
     }
 }

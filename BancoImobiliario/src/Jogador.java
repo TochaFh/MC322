@@ -18,7 +18,7 @@ public class Jogador
     private String email;
     private String foto;
     private int id;
-    private int dinheiro;
+    private int saldo;
     private Peca peca;
 
     // faz mais sentido armazenar as cartas de sorte de forma separada das propriedades
@@ -39,7 +39,7 @@ public class Jogador
         this.peca = new Peca(corPeca, this);
 
         // valor default
-        this.dinheiro = DINHEIRO_INICIAL;
+        this.saldo = DINHEIRO_INICIAL;
 
         propriedades = new ArrayList<Propriedade>();
         cartasDeSorte = new ArrayList<CartaSorte>();
@@ -124,14 +124,14 @@ public class Jogador
         return cartasDeSorte;
     }
 
-    public int getDinheiro()
+    public int getSaldo()
     {
-        return dinheiro;
+        return saldo;
     }
 
-    public void setDinheiro(int dinheiro)
+    public void setSaldo(int dinheiro)
     {
-        this.dinheiro = dinheiro;
+        this.saldo = dinheiro;
     }
 
     /**
@@ -141,8 +141,8 @@ public class Jogador
      */
     public boolean somarDinheiro(int quantiaSomar)
     {
-        dinheiro += quantiaSomar;
-        return dinheiro > 0;
+        saldo += quantiaSomar;
+        return saldo > 0;
     }
 
     public static int getNumJogadoresCriados() {
@@ -154,7 +154,7 @@ public class Jogador
     @Override
     public String toString() {
         return "\n-- Jogador " + id + "\nNome: " + nome + "\nCpf: " + cpf
-        + "\nEmail: " + email + "\nFoto: " + foto + "\nDinheiro: $" + dinheiro + "\n";
+        + "\nEmail: " + email + "\nFoto: " + foto + "\nDinheiro: $" + saldo + "\n";
     }
 
     public String listaPropriedades()
@@ -190,9 +190,37 @@ public class Jogador
     public void printBasico()
     {
         AppUtils.log("JOGADOR " + this.getId() + ":");
-        AppUtils.log(this.getNome() + "\n" + "$" + this.getDinheiro());
+        AppUtils.log(this.getNome() + "\n" + "$" + this.getSaldo());
         AppUtils.log("Posição: " + this.getPeca().getPosicao());
         AppUtils.log("Propriedades: " + this.listaPropriedades());
         AppUtils.log("Cartas de sorte guardadas: " + this.listaCartasDeSorte());
+    }
+
+    public void comprarPropriedade(Propriedade p) throws SaldoInsuficienteException
+    {
+        if (p.getPreco() > this.saldo)
+        {
+            throw new SaldoInsuficienteException(this, p);
+        }
+
+        // jogador tem dinheiro:
+
+        saldo -= p.getPreco();
+        this.propriedades.add(p);
+        p.setDono(this);
+    }
+
+    public void pagarAluguel(Propriedade p) throws SaldoInsuficienteException
+    {
+        int aluguel = p.calcularAluguel();
+        if (aluguel > this.saldo)
+        {
+            throw new SaldoInsuficienteException(this, aluguel);
+        }
+
+        // jogador tem dinheiro:
+
+        this.saldo -= aluguel;
+        p.getDono().saldo += aluguel;
     }
 }

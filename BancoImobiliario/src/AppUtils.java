@@ -210,12 +210,32 @@ public class AppUtils
         }
     }
 
-    /*public static void esperarEnterKey()
+    public static void esperarEnterKey()
     {
-        try {
+        /*try {
             System.in.read();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-    }*/
+        catch (IOException e) {
+            e.printStackTrace();
+        }*/
+
+        readLine();
+    }
+
+    public static void esperarEnterKey(String msg)
+    {
+        log(msg);
+        esperarEnterKey();
+    }
+    
+    /**
+     * Prompt da msg, se a resposta for Y retorna true, se não, retorna falso.
+     * @param msg
+     * @return
+     */
+    public static boolean yesOrNo(String msg)
+    {
+        String input = AppUtils.readLine(msg);
+        return input.toUpperCase().startsWith("Y");
+    }
 }
