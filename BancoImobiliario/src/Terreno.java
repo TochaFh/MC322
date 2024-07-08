@@ -55,7 +55,7 @@ public class Terreno extends Propriedade
     public int calcularAluguel()
     {
         AppUtils.log("$ calculando aluguel do TERRENO " + nome);
-        return numeroCasas * this.aluguel;
+        return (numeroCasas + 1) * this.aluguel;
     }
 
     public boolean comprarCasa()

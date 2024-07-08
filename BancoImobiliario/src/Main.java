@@ -55,8 +55,9 @@ public class Main
 
                 posicao = j.getPeca().getPosicao();
                 AppUtils.log("> Caiu na posição " + posicao + ".");
+                ultimaJogada.log("Caiu na posição " + posicao + ".");
                 p = tab.getPropriedade(posicao);
-                AppUtils.log("> Propriedade: " + p.getNome() + " [dono(a):" + p.getDono() + "]");
+                AppUtils.log("> Propriedade: " + p.getNome());
 
                 if (!p.temDono()) // do banco
                 {
@@ -69,27 +70,33 @@ public class Main
                         {
                             j.comprarPropriedade(p);
                             AppUtils.log("Propriedade (" + p.getNome() + ") comprada com sucesso!");
+                            ultimaJogada.log("Comprou a propriedade " + p.getNome());
                         }
                         catch (SaldoInsuficienteException e)
                         {
                             AppUtils.log(e.getMessage());
                         }
+
+                        AppUtils.esperarEnterKey("(pressione 'Enter')");
                     }
 
                 }
                 else if (p.getDono() != j) // tem dono e não é o próprio jogador j
                 {
+                    AppUtils.log("> [dono(a):" + p.getDono().getNome() + "]");
                     AppUtils.esperarEnterKey(">> Aluguel de $" + p.calcularAluguel() + " a pagar! (pressione 'Enter')");
 
                     try
                     {
                         j.pagarAluguel(p);
+                        ultimaJogada.log("Pagou ALUGUEL da propriedade " + p.getNome());
                     }
                     catch (SaldoInsuficienteException e)
                     {
                         AppUtils.log(e.getMessage());
 
-                        AppUtils.log("Jogador " + j.getNome() + " MORTO!");
+                        AppUtils.log("Jogador " + j.getNome() + " FALIU!");
+                        ultimaJogada.log("Jogador " + j.getNome() + " FALIU! Ao ser taxado por aluguel");
                         tab.removeJogador(j);
                         if (tab.getNumJogadores() <= 1)
                         {
@@ -97,8 +104,14 @@ public class Main
                         }
                     }
                 }
+                else
+                {
+                    AppUtils.esperarEnterKey("Caiu em sua própria propriedade! Nada de especial aqui. (pressione 'Enter')");
+                }
 
-                // TODO: opção de comprar casinhas/hotel
+                // To do: opção de comprar casinhas/hotel
+
+                tab.fimJogada();
             }
 
             AppUtils.log("\n\n");
@@ -118,7 +131,7 @@ public class Main
             AppUtils.delay(200);
         }
         
-        AppUtils.log("-");
+        AppUtils.log("- Jogador " + j.getNome() + " VENCEU o jogo!");
 
         tab.salvaLog();
 

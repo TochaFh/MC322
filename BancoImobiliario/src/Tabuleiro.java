@@ -15,7 +15,7 @@ public class Tabuleiro implements ISalvavel
     private String log;
     private Jogada ultimaJogada;
 
-    // TODO; adicionar sistema de casas no tabuleiro (casa inicial com salário e casas de carta de sorte ou reves)
+    // To do: adicionar sistema de casas no tabuleiro (casa inicial com salário e casas de carta de sorte ou reves)
 
     // Construtores
     public Tabuleiro(int numJogadores)
@@ -29,6 +29,8 @@ public class Tabuleiro implements ISalvavel
         terrenos = new ArrayList<Terreno>();
 
         ultimaJogada = new Jogada();
+
+        log = "";
     }
 
     /**
@@ -37,7 +39,7 @@ public class Tabuleiro implements ISalvavel
      */
     public Jogador getJogador(int index)
     {
-        return jogadores.get(index);
+        return jogadores.get(index - 1);
     }
 
     public boolean addJogador(Jogador j)
@@ -174,14 +176,9 @@ public class Tabuleiro implements ISalvavel
 
     @Override
     public void salvaLog() {
-
-        //TODO: implementar log
-        log = "log não carregado...";
-
         String nomeArquivo = "log_" + Main.getCodigoJogo() + ".txt";
         AppUtils.escreverAqrquivoTxt(nomeArquivo, log);
     }
-
 
     /**
      * Faz um novo lançaento de dados e move a peça do jogador que os lançou.
@@ -191,6 +188,11 @@ public class Tabuleiro implements ISalvavel
     public void novaJogada(Jogador j, int numeroDaRodada)
     {
         ultimaJogada.rejogar(j, numeroDaRodada);
-        j.getPeca().move(ultimaJogada.somaDados, this);
+        j.getPeca().move(ultimaJogada.getSomaDados(), this);
+    }
+
+    public void fimJogada()
+    {
+        log += ultimaJogada.relatorioJogada() + "\n";
     }
 }

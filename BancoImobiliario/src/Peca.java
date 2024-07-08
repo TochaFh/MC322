@@ -45,6 +45,8 @@ public class Peca
         posicao += numCasas;
         int posicaoMax = tab.getNumCasas();
 
-        posicao = posicao % posicaoMax;
+        posicao -= 1;
+        posicao = (posicao % posicaoMax);
+        posicao += 1;
     }
 }
